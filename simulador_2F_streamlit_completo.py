@@ -62,9 +62,11 @@ st.markdown("---")
 st.markdown("### ✅ Área de Validação Automática")
 st.info("Preencha abaixo os dados calculados por você no Excel. O simulador verificará se estão corretos.")
 st.markdown("**Faixas fixas utilizadas para validação:**")
-st.markdown("- Faixa 1: R$ 5 a R$ 30  
+st.markdown("""
+- Faixa 1: R$ 5 a R$ 30  
 - Faixa 2: R$ 31 a R$ 80  
-- Faixa 3: R$ 81 ou mais")
+- Faixa 3: R$ 81 ou mais
+""")
 
 col1, col2, col3 = st.columns(3)
 with col1:
