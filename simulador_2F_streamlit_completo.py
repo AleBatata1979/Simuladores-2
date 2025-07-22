@@ -1,6 +1,7 @@
 
 import streamlit as st
 import pandas as pd
+import io
 
 st.set_page_config(page_title="Simulador 2º F", layout="wide")
 
@@ -29,10 +30,15 @@ df_filtrado = df[
 st.markdown("### 📋 Resultados Filtrados")
 st.dataframe(df_filtrado, use_container_width=True)
 
-xlsx = df_filtrado.to_excel(index=False, engine='openpyxl')
+# Gerar Excel em memória
+output = io.BytesIO()
+with pd.ExcelWriter(output, engine='openpyxl') as writer:
+    df_filtrado.to_excel(writer, index=False, sheet_name="DadosFiltrados")
+output.seek(0)
+
 st.download_button(
     label="📥 Baixar dados filtrados como Excel (.xlsx)",
-    data=xlsx,
+    data=output,
     file_name="dados_filtrados_simulador_2F.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
@@ -66,7 +72,6 @@ fp_total = st.number_input("Soma Total da Frequência Percentual (FP)", min_valu
 if st.button("🔍 Validar Meus Cálculos"):
     resultado = []
 
-    # Simulação dos valores reais com base no subconjunto atual
     sudeste_faixa1 = df_filtrado[
         (df_filtrado["Região"] == "Sudeste") &
         (df_filtrado["Preço (R$)"] >= 5) & (df_filtrado["Preço (R$)"] <= 30)
